@@ -7,25 +7,101 @@
 <title>Encuesta Fatiga</title>
 
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#003366">
+<meta name="theme-color" content="#5DBB63">
 
 <style>
-body{margin:0;font-family:Arial;background:#f1f4f9;}
-.header{background:#003366;color:white;padding:18px;text-align:center;font-weight:bold;}
-.container{max-width:500px;margin:auto;padding:15px;}
-.card{background:white;padding:15px;border-radius:10px;margin-bottom:15px;}
-input[type="text"]{width:100%;padding:10px;font-size:16px;}
-button{width:100%;padding:15px;background:#0078D4;color:white;border:none;font-size:18px;border-radius:10px;}
-.resultado{text-align:center;font-size:28px;font-weight:bold;margin-top:15px;}
-.apto{color:green;}
-.noapto{color:red;}
-#estado{margin:10px 0;text-align:center;font-weight:bold;}
+
+/* =========================
+   ESTILO CORPORATIVO
+========================= */
+
+body{
+    margin:0;
+    font-family:Arial;
+    background:#F4F6F8;
+}
+
+/* HEADER CON GRADIENTE EMPRESA */
+.header{
+    background: linear-gradient(90deg, #5DBB63, #F28C28);
+    color:white;
+    padding:15px;
+    text-align:center;
+}
+
+/* LOGO */
+.logo{
+    display:block;
+    margin:10px auto;
+    max-width:180px;
+}
+
+/* CONTENEDOR */
+.container{
+    max-width:500px;
+    margin:auto;
+    padding:15px;
+}
+
+/* TARJETAS */
+.card{
+    background:white;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:15px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* INPUT */
+input[type="text"]{
+    width:100%;
+    padding:10px;
+    font-size:16px;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+
+/* BOTÓN */
+button{
+    width:100%;
+    padding:15px;
+    background: linear-gradient(90deg, #5DBB63, #F28C28);
+    color:white;
+    border:none;
+    font-size:18px;
+    border-radius:10px;
+    font-weight:bold;
+}
+
+/* RESULTADO */
+.resultado{
+    text-align:center;
+    font-size:30px;
+    font-weight:bold;
+    margin-top:15px;
+}
+
+.apto{color:#5DBB63;}
+.noapto{color:#F28C28;}
+
+/* ESTADO */
+#estado{
+    text-align:center;
+    font-weight:bold;
+    margin:10px 0;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="header">ENCUESTA DE FATIGA</div>
+<!-- LOGO EMPRESA -->
+<img src="icon.png" class="logo">
+
+<div class="header">
+ENCUESTA DE FATIGA
+</div>
 
 <div class="container">
 
@@ -40,56 +116,55 @@ button{width:100%;padding:15px;background:#0078D4;color:white;border:none;font-s
 
 <div class="card">
 
-<!-- PREGUNTAS -->
 <div>1. ¿Durmió más de 5 horas?<br>
 <input type="radio" name="p1" value="Si" required> Sí
 <input type="radio" name="p1" value="No"> No
-</div>
+</div><br>
 
 <div>2. ¿Cuerpo adormecido?<br>
 <input type="radio" name="p2" value="Si" required> Sí
 <input type="radio" name="p2" value="No"> No
-</div>
+</div><br>
 
 <div>3. ¿Bostezos frecuentes?<br>
 <input type="radio" name="p3" value="Si" required> Sí
 <input type="radio" name="p3" value="No"> No
-</div>
+</div><br>
 
 <div>4. ¿Dificultad concentración?<br>
 <input type="radio" name="p4" value="Si" required> Sí
 <input type="radio" name="p4" value="No"> No
-</div>
+</div><br>
 
 <div>5. ¿Pesadez ojos?<br>
 <input type="radio" name="p5" value="Si" required> Sí
 <input type="radio" name="p5" value="No"> No
-</div>
+</div><br>
 
 <div>6. ¿Menos sueño habitual?<br>
 <input type="radio" name="p6" value="Si" required> Sí
 <input type="radio" name="p6" value="No"> No
-</div>
+</div><br>
 
 <div>7. ¿Cansancio físico?<br>
 <input type="radio" name="p7" value="Si" required> Sí
 <input type="radio" name="p7" value="No"> No
-</div>
+</div><br>
 
 <div>8. ¿Sueño actual?<br>
 <input type="radio" name="p8" value="Si" required> Sí
 <input type="radio" name="p8" value="No"> No
-</div>
+</div><br>
 
 <div>9. ¿Microsueños?<br>
 <input type="radio" name="p9" value="Si" required> Sí
 <input type="radio" name="p9" value="No"> No
-</div>
+</div><br>
 
 <div>10. ¿Apto conducir?<br>
 <input type="radio" name="p10" value="Si" required> Sí
 <input type="radio" name="p10" value="No"> No
-</div>
+</div><br>
 
 <button type="submit">ENVIAR</button>
 
