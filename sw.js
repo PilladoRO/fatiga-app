@@ -1,43 +1,42 @@
 const CACHE_NAME = "fatiga-app-v1";
 
-const FILES_TO_CACHE = [
-  "./",
-  "./index.html",
-  "./manifest.json",
-  "./icon.png"
-];
-
-// INSTALL
+/* =========================
+   INSTALL
+========================= */
 self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(FILES_TO_CACHE);
-    })
-  );
   self.skipWaiting();
 });
 
-// ACTIVATE
+/* =========================
+   ACTIVATE
+========================= */
 self.addEventListener("activate", (event) => {
-  event.waitUntil(
-    caches.keys().then(keys => {
-      return Promise.all(
-        keys.filter(key => key !== CACHE_NAME)
-            .map(key => caches.delete(key))
-      );
-    })
-  );
-  self.clients.claim();
+  event.waitUntil(self.clients.claim());
 });
 
-// FETCH (OFFLINE MODE)
+/* =========================
+   FETCH (IMPORTANTE)
+   - NO interceptar Google Sheets
+   - Evitar romper fetch en móvil
+========================= */
 self.addEventListener("fetch", (event) => {
+
+  const url = event.request.url;
+
+  // ❌ CRÍTICO: no tocar Google Apps Script
+  if (url.includes("script.google.com")) {
+    return; // deja pasar directo a red
+  }
+
+  // ❌ tampoco romper POST requests
+  if (event.request.method !== "GET") {
+    return;
+  }
+
+  // ✔ para archivos normales (HTML, CSS, JS, imágenes)
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      return cached || fetch(event.request).catch(() => {
-        // fallback opcional
-        return caches.match("./index.html");
-      });
+    fetch(event.request).catch(() => {
+      return caches.match(event.request);
     })
   );
 });
