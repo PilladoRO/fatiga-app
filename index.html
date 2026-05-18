@@ -16,7 +16,6 @@ body{
     background:#F4F6F8;
 }
 
-/* SPLASH */
 #splash{
     position:fixed;
     top:0;
@@ -43,7 +42,6 @@ body{
     text-align:center;
 }
 
-/* HEADER */
 .header{
     background: linear-gradient(90deg, #5DBB63, #F28C28);
     color:white;
@@ -160,47 +158,75 @@ Encuesta de Fatiga y Somnolencia
 </div>
 
 <form id="formulario">
+
 <div class="card">
 
-<!-- PREGUNTAS -->
-<script>
-const preguntas = [
-"¿Durmió más de 5 horas?",
-"¿Cuerpo adormecido?",
-"¿Bostezos frecuentes?",
-"¿Dificultad concentración?",
-"¿Pesadez ojos?",
-"¿Menos sueño habitual?",
-"¿Cansancio físico?",
-"¿Sueño actual?",
-"¿Microsueños?",
-"¿Apto conducir?"
-];
-
-document.write(
-preguntas.map((p,i)=>`
 <div>
-${i+1}. ${p}<br>
-<input type="radio" name="p${i+1}" value="Si" required> Sí
-<input type="radio" name="p${i+1}" value="No"> No
+1. ¿Durmió más de 5 horas?<br>
+<input type="radio" name="p1" value="Si" required> Sí
+<input type="radio" name="p1" value="No"> No
 </div><br>
-`).join("")
-);
-</script>
+
+<div>
+2. ¿Cuerpo adormecido?<br>
+<input type="radio" name="p2" value="Si" required> Sí
+<input type="radio" name="p2" value="No"> No
+</div><br>
+
+<div>
+3. ¿Bostezos frecuentes?<br>
+<input type="radio" name="p3" value="Si" required> Sí
+<input type="radio" name="p3" value="No"> No
+</div><br>
+
+<div>
+4. ¿Dificultad concentración?<br>
+<input type="radio" name="p4" value="Si" required> Sí
+<input type="radio" name="p4" value="No"> No
+</div><br>
+
+<div>
+5. ¿Pesadez ojos?<br>
+<input type="radio" name="p5" value="Si" required> Sí
+<input type="radio" name="p5" value="No"> No
+</div><br>
+
+<div>
+6. ¿Menos sueño habitual?<br>
+<input type="radio" name="p6" value="Si" required> Sí
+<input type="radio" name="p6" value="No"> No
+</div><br>
+
+<div>
+7. ¿Cansancio físico?<br>
+<input type="radio" name="p7" value="Si" required> Sí
+<input type="radio" name="p7" value="No"> No
+</div><br>
+
+<div>
+8. ¿Sueño actual?<br>
+<input type="radio" name="p8" value="Si" required> Sí
+<input type="radio" name="p8" value="No"> No
+</div><br>
+
+<div>
+9. ¿Microsueños?<br>
+<input type="radio" name="p9" value="Si" required> Sí
+<input type="radio" name="p9" value="No"> No
+</div><br>
+
+<div>
+10. ¿Apto conducir?<br>
+<input type="radio" name="p10" value="Si" required> Sí
+<input type="radio" name="p10" value="No"> No
+</div><br>
 
 <button type="submit">ENVIAR</button>
 </div>
 
 <div id="resultado" class="resultado"></div>
+
 </form>
-
-<div class="card">
-<button type="button" onclick="mostrarHistorial()">
-VER ENCUESTAS REALIZADAS
-</button>
-
-<div id="historial" style="margin-top:15px;"></div>
-</div>
 
 </div>
 
@@ -209,16 +235,8 @@ VER ENCUESTAS REALIZADAS
 </footer>
 
 <script>
-const scriptURL = "https://script.google.com/macros/s/AKfycbyYxpxYN0Dc3dKDev_59tEI32h5xD2SA7uMrL_BH2flXI89R2W8ZMZk__hGYrqTZC6p/exec";
 
-/* ================= SW REGISTRATION ================= */
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js")
-      .then(() => console.log("SW activo"))
-      .catch(err => console.log("SW error:", err));
-  });
-}
+const scriptURL = "https://script.google.com/macros/s/AKfycbyYxpxYN0Dc3dKDev_59tEI32h5xD2SA7uMrL_BH2flXI89R2W8ZMZk__hGYrqTZC6p/exec";
 
 /* SPLASH */
 window.addEventListener("load", ()=>{
@@ -227,7 +245,7 @@ window.addEventListener("load", ()=>{
   }, 2500);
 });
 
-/* OFFLINE STORAGE */
+/* OFFLINE */
 function guardarOffline(data){
   let lista = JSON.parse(localStorage.getItem("encuestas")) || [];
   lista.push(data);
@@ -240,52 +258,12 @@ function guardarHistorial(data){
   localStorage.setItem("historial", JSON.stringify(historial));
 }
 
-function mostrarHistorial(){
-  let historial = JSON.parse(localStorage.getItem("historial")) || [];
-
-  document.getElementById("historial").innerHTML =
-    historial.length === 0
-    ? "No hay encuestas registradas"
-    : historial.map(item=>`
-      <div class="historial-item">
-        <b>${item.nombre}</b><br>
-        ${item.faena}<br>
-        ${item.fecha} ${item.hora}<br><br>
-        <span style="color:${item.resultado==="APTO"?"#5DBB63":"#F28C28"};font-weight:bold;">
-        ${item.resultado}
-        </span>
-      </div>
-    `).join("");
-}
-
-/* ENVIO PENDIENTES */
-async function enviarPendientes(){
-  let lista = JSON.parse(localStorage.getItem("encuestas")) || [];
-  if(lista.length === 0) return;
-
-  for(let item of lista){
-    try{
-      await fetch(scriptURL,{
-        method:"POST",
-        body: JSON.stringify(item)
-      });
-    }catch(e){
-      console.log("Error envio pendiente");
-      return;
-    }
-  }
-
-  localStorage.removeItem("encuestas");
-}
-
 /* ESTADO */
 function actualizarEstado(){
   document.getElementById("estado").innerText =
     navigator.onLine ? "🟢 En línea" : "🔴 Sin conexión";
 }
 setInterval(actualizarEstado,1000);
-
-window.addEventListener("online", enviarPendientes);
 
 /* FORM */
 document.getElementById("formulario").addEventListener("submit", async (e)=>{
@@ -298,7 +276,8 @@ let count = 0;
 let respuestas = {};
 
 for(let i=1;i<=10;i++){
-  let v = document.querySelector(`input[name=p${i}]:checked`).value;
+  let selected = document.querySelector(`input[name=p${i}]:checked`);
+  let v = selected ? selected.value : "No";
   respuestas["p"+i] = v;
   if(v==="Si") count++;
 }
@@ -321,11 +300,19 @@ let data = {
 
 guardarHistorial(data);
 
+/* ENVÍO ONLINE / OFFLINE */
 if(navigator.onLine){
-  await fetch(scriptURL,{
-    method:"POST",
-    body: JSON.stringify(data)
-  });
+
+  setTimeout(() => {
+    fetch(scriptURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: JSON.stringify(data)
+    }).catch(err => console.log(err));
+  }, 300);
+
 }else{
   guardarOffline(data);
   alert("Sin conexión: guardado localmente");
@@ -333,7 +320,9 @@ if(navigator.onLine){
 
 alert("Encuesta procesada");
 document.getElementById("formulario").reset();
+
 });
+
 </script>
 
 </body>
