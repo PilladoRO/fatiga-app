@@ -21,12 +21,14 @@ body{
     background:#F4F6F8;
 }
 
-/* HEADER CON GRADIENTE EMPRESA */
+/* HEADER */
 .header{
     background: linear-gradient(90deg, #5DBB63, #F28C28);
     color:white;
     padding:15px;
     text-align:center;
+    font-size:22px;
+    font-weight:bold;
 }
 
 /* LOGO */
@@ -52,16 +54,18 @@ body{
     box-shadow:0 2px 8px rgba(0,0,0,0.08);
 }
 
-/* INPUT */
-input[type="text"]{
+/* INPUTS */
+input[type="text"],
+select{
     width:100%;
     padding:10px;
     font-size:16px;
     border-radius:8px;
     border:1px solid #ccc;
+    box-sizing:border-box;
 }
 
-/* BOTÓN */
+/* BOTONES */
 button{
     width:100%;
     padding:15px;
@@ -71,6 +75,7 @@ button{
     font-size:18px;
     border-radius:10px;
     font-weight:bold;
+    cursor:pointer;
 }
 
 /* RESULTADO */
@@ -81,8 +86,13 @@ button{
     margin-top:15px;
 }
 
-.apto{color:#5DBB63;}
-.noapto{color:#F28C28;}
+.apto{
+    color:#5DBB63;
+}
+
+.noapto{
+    color:#F28C28;
+}
 
 /* ESTADO */
 #estado{
@@ -91,77 +101,107 @@ button{
     margin:10px 0;
 }
 
+.historial-item{
+    border:1px solid #ddd;
+    padding:10px;
+    margin-bottom:10px;
+    border-radius:8px;
+    background:#fafafa;
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- LOGO EMPRESA -->
+<!-- LOGO -->
 <img src="icon.png" class="logo">
 
 <div class="header">
-Encuenta de Fatiga y Somnolencia
+Encuesta de Fatiga y Somnolencia
 </div>
 
 <div class="container">
 
 <div id="estado"></div>
 
+<!-- DATOS CONDUCTOR -->
 <div class="card">
+
 <label>Nombre del conductor</label>
-<input type="text" id="nombre">
+<input type="text" id="nombre" required>
+
+<br><br>
+
+<label>Faena</label>
+<select id="faena" required>
+    <option value="">Seleccione Faena</option>
+    <option value="Faena El Romeral">Faena El Romeral</option>
+    <option value="Faena Franke">Faena Franke</option>
+</select>
+
 </div>
 
 <form id="formulario">
 
 <div class="card">
 
-<div>1. ¿Durmió más de 5 horas?<br>
+<div>
+1. ¿Durmió más de 5 horas?<br>
 <input type="radio" name="p1" value="Si" required> Sí
 <input type="radio" name="p1" value="No"> No
 </div><br>
 
-<div>2. ¿Cuerpo adormecido?<br>
+<div>
+2. ¿Cuerpo adormecido?<br>
 <input type="radio" name="p2" value="Si" required> Sí
 <input type="radio" name="p2" value="No"> No
 </div><br>
 
-<div>3. ¿Bostezos frecuentes?<br>
+<div>
+3. ¿Bostezos frecuentes?<br>
 <input type="radio" name="p3" value="Si" required> Sí
 <input type="radio" name="p3" value="No"> No
 </div><br>
 
-<div>4. ¿Dificultad concentración?<br>
+<div>
+4. ¿Dificultad concentración?<br>
 <input type="radio" name="p4" value="Si" required> Sí
 <input type="radio" name="p4" value="No"> No
 </div><br>
 
-<div>5. ¿Pesadez ojos?<br>
+<div>
+5. ¿Pesadez ojos?<br>
 <input type="radio" name="p5" value="Si" required> Sí
 <input type="radio" name="p5" value="No"> No
 </div><br>
 
-<div>6. ¿Menos sueño habitual?<br>
+<div>
+6. ¿Menos sueño habitual?<br>
 <input type="radio" name="p6" value="Si" required> Sí
 <input type="radio" name="p6" value="No"> No
 </div><br>
 
-<div>7. ¿Cansancio físico?<br>
+<div>
+7. ¿Cansancio físico?<br>
 <input type="radio" name="p7" value="Si" required> Sí
 <input type="radio" name="p7" value="No"> No
 </div><br>
 
-<div>8. ¿Sueño actual?<br>
+<div>
+8. ¿Sueño actual?<br>
 <input type="radio" name="p8" value="Si" required> Sí
 <input type="radio" name="p8" value="No"> No
 </div><br>
 
-<div>9. ¿Microsueños?<br>
+<div>
+9. ¿Microsueños?<br>
 <input type="radio" name="p9" value="Si" required> Sí
 <input type="radio" name="p9" value="No"> No
 </div><br>
 
-<div>10. ¿Apto conducir?<br>
+<div>
+10. ¿Apto conducir?<br>
 <input type="radio" name="p10" value="Si" required> Sí
 <input type="radio" name="p10" value="No"> No
 </div><br>
@@ -170,9 +210,20 @@ Encuenta de Fatiga y Somnolencia
 
 </div>
 
-<div id="resultado"></div>
+<div id="resultado" class="resultado"></div>
 
 </form>
+
+<!-- HISTORIAL -->
+<div class="card">
+
+<button type="button" onclick="mostrarHistorial()">
+VER ENCUESTAS REALIZADAS
+</button>
+
+<div id="historial" style="margin-top:15px;"></div>
+
+</div>
 
 </div>
 
@@ -181,13 +232,75 @@ Encuenta de Fatiga y Somnolencia
 const scriptURL = "https://script.google.com/macros/s/AKfycbwgqMQhsRcos40SA9cCzQsFNd07rY_cwmEfU42WiPERHPveroEPLcBrGEfPMWk2pOXl/exec";
 
 /* =========================
-   OFFLINE STORAGE
+   GUARDAR OFFLINE
 ========================= */
 
 function guardarOffline(data){
+
   let lista = JSON.parse(localStorage.getItem("encuestas")) || [];
+
   lista.push(data);
+
   localStorage.setItem("encuestas", JSON.stringify(lista));
+
+}
+
+/* =========================
+   HISTORIAL LOCAL
+========================= */
+
+function guardarHistorial(data){
+
+  let historial = JSON.parse(localStorage.getItem("historial")) || [];
+
+  historial.unshift(data);
+
+  localStorage.setItem("historial", JSON.stringify(historial));
+
+}
+
+/* =========================
+   MOSTRAR HISTORIAL
+========================= */
+
+function mostrarHistorial(){
+
+  let historial = JSON.parse(localStorage.getItem("historial")) || [];
+
+  let html = "";
+
+  if(historial.length === 0){
+
+    html = "No hay encuestas registradas";
+
+  }else{
+
+    historial.forEach(item=>{
+
+      html += `
+      <div class="historial-item">
+
+        <b>${item.nombre}</b><br>
+        ${item.faena}<br>
+        ${item.fecha} ${item.hora}<br><br>
+
+        <span style="
+            color:${item.resultado==="APTO" ? "#5DBB63" : "#F28C28"};
+            font-weight:bold;
+            font-size:18px;
+        ">
+            ${item.resultado}
+        </span>
+
+      </div>
+      `;
+
+    });
+
+  }
+
+  document.getElementById("historial").innerHTML = html;
+
 }
 
 /* =========================
@@ -201,13 +314,16 @@ async function enviarPendientes(){
   if(lista.length === 0) return;
 
   for(let item of lista){
+
     await fetch(scriptURL,{
       method:"POST",
       body: JSON.stringify(item)
     });
+
   }
 
   localStorage.removeItem("encuestas");
+
 }
 
 /* =========================
@@ -215,11 +331,16 @@ async function enviarPendientes(){
 ========================= */
 
 function actualizarEstado(){
+
   document.getElementById("estado").innerText =
-    navigator.onLine ? "🟢 En línea" : "🔴 Sin conexión (modo offline)";
+    navigator.onLine
+    ? "🟢 En línea"
+    : "🔴 Sin conexión (modo offline)";
+
 }
 
 setInterval(actualizarEstado,1000);
+
 window.addEventListener("online", enviarPendientes);
 
 /* =========================
@@ -227,20 +348,27 @@ window.addEventListener("online", enviarPendientes);
 ========================= */
 
 document.getElementById("formulario").addEventListener("submit", async (e)=>{
+
 e.preventDefault();
 
 let nombre = document.getElementById("nombre").value;
+let faena = document.getElementById("faena").value;
 
 let count = 0;
+
 let respuestas = {};
 
 for(let i=1;i<=10;i++){
-let v = document.querySelector(`input[name=p${i}]:checked`).value;
-respuestas["p"+i]=v;
-if(v==="Si") count++;
+
+  let v = document.querySelector(`input[name=p${i}]:checked`).value;
+
+  respuestas["p"+i] = v;
+
+  if(v==="Si") count++;
+
 }
 
-let resultado = count>=7?"APTO":"NO APTO";
+let resultado = count>=7 ? "APTO" : "NO APTO";
 
 document.getElementById("resultado").innerHTML =
 resultado==="APTO"
@@ -248,12 +376,19 @@ resultado==="APTO"
 : `<span class="noapto">NO APTO</span>`;
 
 let data = {
-nombre,
-fecha:new Date().toLocaleDateString(),
-hora:new Date().toLocaleTimeString(),
-...respuestas,
-resultado
+
+  nombre,
+  faena,
+  fecha:new Date().toLocaleDateString(),
+  hora:new Date().toLocaleTimeString(),
+  ...respuestas,
+  resultado
+
 };
+
+/* GUARDAR HISTORIAL */
+
+guardarHistorial(data);
 
 /* =========================
    ENVÍO ONLINE / OFFLINE
@@ -269,11 +404,16 @@ if(navigator.onLine){
 }else{
 
   guardarOffline(data);
+
   alert("Sin conexión: guardado en el dispositivo");
 
 }
 
 alert("Encuesta procesada");
+
+/* LIMPIAR FORMULARIO */
+
+document.getElementById("formulario").reset();
 
 });
 
