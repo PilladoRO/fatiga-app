@@ -10,38 +10,18 @@
 <meta name="theme-color" content="#5DBB63">
 
 <style>
+
+/* =========================
+   ESTILO CORPORATIVO
+========================= */
+
 body{
     margin:0;
     font-family:Arial;
     background:#F4F6F8;
 }
 
-#splash{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:#5DBB63;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    z-index:9999;
-}
-
-.splash-logo{
-    width:180px;
-    margin-bottom:20px;
-}
-
-.splash-text{
-    color:white;
-    font-size:18px;
-    font-weight:bold;
-    text-align:center;
-}
-
+/* HEADER */
 .header{
     background: linear-gradient(90deg, #5DBB63, #F28C28);
     color:white;
@@ -51,18 +31,21 @@ body{
     font-weight:bold;
 }
 
+/* LOGO */
 .logo{
     display:block;
     margin:10px auto;
     max-width:180px;
 }
 
+/* CONTENEDOR */
 .container{
     max-width:500px;
     margin:auto;
     padding:15px;
 }
 
+/* TARJETAS */
 .card{
     background:white;
     padding:15px;
@@ -71,7 +54,9 @@ body{
     box-shadow:0 2px 8px rgba(0,0,0,0.08);
 }
 
-input[type="text"], select{
+/* INPUTS */
+input[type="text"],
+select{
     width:100%;
     padding:10px;
     font-size:16px;
@@ -80,6 +65,7 @@ input[type="text"], select{
     box-sizing:border-box;
 }
 
+/* BOTONES */
 button{
     width:100%;
     padding:15px;
@@ -92,6 +78,7 @@ button{
     cursor:pointer;
 }
 
+/* RESULTADO */
 .resultado{
     text-align:center;
     font-size:30px;
@@ -99,9 +86,15 @@ button{
     margin-top:15px;
 }
 
-.apto{ color:#5DBB63; }
-.noapto{ color:#F28C28; }
+.apto{
+    color:#5DBB63;
+}
 
+.noapto{
+    color:#F28C28;
+}
+
+/* ESTADO */
 #estado{
     text-align:center;
     font-weight:bold;
@@ -116,23 +109,12 @@ button{
     background:#fafafa;
 }
 
-footer{
-    text-align:center;
-    padding:20px;
-    color:#777;
-    font-size:13px;
-}
 </style>
 </head>
 
 <body>
 
-<!-- SPLASH -->
-<div id="splash">
-    <img src="icon.png" class="splash-logo">
-    <div class="splash-text">Aplicación creada por Jorge Alfaro B.</div>
-</div>
-
+<!-- LOGO -->
 <img src="icon.png" class="logo">
 
 <div class="header">
@@ -143,7 +125,9 @@ Encuesta de Fatiga y Somnolencia
 
 <div id="estado"></div>
 
+<!-- DATOS CONDUCTOR -->
 <div class="card">
+
 <label>Nombre del conductor</label>
 <input type="text" id="nombre" required>
 
@@ -155,6 +139,7 @@ Encuesta de Fatiga y Somnolencia
     <option value="Faena El Romeral">Faena El Romeral</option>
     <option value="Faena Franke">Faena Franke</option>
 </select>
+
 </div>
 
 <form id="formulario">
@@ -222,64 +207,165 @@ Encuesta de Fatiga y Somnolencia
 </div><br>
 
 <button type="submit">ENVIAR</button>
+
 </div>
 
 <div id="resultado" class="resultado"></div>
 
 </form>
 
+<!-- HISTORIAL -->
+<div class="card">
+
+<button type="button" onclick="mostrarHistorial()">
+VER ENCUESTAS REALIZADAS
+</button>
+
+<div id="historial" style="margin-top:15px;"></div>
+
 </div>
 
-<footer>
-© 2026 Todos los derechos reservados | Jorge Alfaro B.
-</footer>
+</div>
 
 <script>
 
-const scriptURL = "https://script.google.com/macros/s/AKfycbyYxpxYN0Dc3dKDev_59tEI32h5xD2SA7uMrL_BH2flXI89R2W8ZMZk__hGYrqTZC6p/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycbzfz25IcEx_74AdKkKxC83SdWLDVa70NuTYgKEo2jrmu7dnoQXFDMaAWjOUrQPrwf4d/exec";
 
-/* SPLASH */
-window.addEventListener("load", ()=>{
-  setTimeout(()=>{
-    document.getElementById("splash").style.display = "none";
-  }, 2500);
-});
+/* =========================
+   GUARDAR OFFLINE
+========================= */
 
-/* OFFLINE */
 function guardarOffline(data){
+
   let lista = JSON.parse(localStorage.getItem("encuestas")) || [];
+
   lista.push(data);
+
   localStorage.setItem("encuestas", JSON.stringify(lista));
+
 }
+
+/* =========================
+   HISTORIAL LOCAL
+========================= */
 
 function guardarHistorial(data){
+
   let historial = JSON.parse(localStorage.getItem("historial")) || [];
+
   historial.unshift(data);
+
   localStorage.setItem("historial", JSON.stringify(historial));
+
 }
 
-/* ESTADO */
-function actualizarEstado(){
-  document.getElementById("estado").innerText =
-    navigator.onLine ? "🟢 En línea" : "🔴 Sin conexión";
+/* =========================
+   MOSTRAR HISTORIAL
+========================= */
+
+function mostrarHistorial(){
+
+  let historial = JSON.parse(localStorage.getItem("historial")) || [];
+
+  let html = "";
+
+  if(historial.length === 0){
+
+    html = "No hay encuestas registradas";
+
+  }else{
+
+    historial.forEach(item=>{
+
+      html += `
+      <div class="historial-item">
+
+        <b>${item.nombre}</b><br>
+        ${item.faena}<br>
+        ${item.fecha} ${item.hora}<br><br>
+
+        <span style="
+            color:${item.resultado==="APTO" ? "#5DBB63" : "#F28C28"};
+            font-weight:bold;
+            font-size:18px;
+        ">
+            ${item.resultado}
+        </span>
+
+      </div>
+      `;
+
+    });
+
+  }
+
+  document.getElementById("historial").innerHTML = html;
+
 }
+
+/* =========================
+   ENVIAR PENDIENTES
+========================= */
+
+async function enviarPendientes(){
+
+  let lista = JSON.parse(localStorage.getItem("encuestas")) || [];
+
+  if(lista.length === 0) return;
+
+  for(let item of lista){
+
+    await fetch(scriptURL,{
+      method:"POST",
+      body: JSON.stringify(item)
+    });
+
+  }
+
+  localStorage.removeItem("encuestas");
+
+}
+
+/* =========================
+   ESTADO INTERNET
+========================= */
+
+function actualizarEstado(){
+
+  document.getElementById("estado").innerText =
+    navigator.onLine
+    ? "🟢 En línea"
+    : "🔴 Sin conexión (modo offline)";
+
+}
+
 setInterval(actualizarEstado,1000);
 
-/* FORM */
+window.addEventListener("online", enviarPendientes);
+
+/* =========================
+   FORMULARIO
+========================= */
+
 document.getElementById("formulario").addEventListener("submit", async (e)=>{
+
 e.preventDefault();
 
 let nombre = document.getElementById("nombre").value;
 let faena = document.getElementById("faena").value;
 
 let count = 0;
+
 let respuestas = {};
 
 for(let i=1;i<=10;i++){
-  let selected = document.querySelector(`input[name=p${i}]:checked`);
-  let v = selected ? selected.value : "No";
+
+  let v = document.querySelector(`input[name=p${i}]:checked`).value;
+
   respuestas["p"+i] = v;
+
   if(v==="Si") count++;
+
 }
 
 let resultado = count>=7 ? "APTO" : "NO APTO";
@@ -290,35 +376,43 @@ resultado==="APTO"
 : `<span class="noapto">NO APTO</span>`;
 
 let data = {
+
   nombre,
   faena,
   fecha:new Date().toLocaleDateString(),
   hora:new Date().toLocaleTimeString(),
   ...respuestas,
   resultado
+
 };
+
+/* GUARDAR HISTORIAL */
 
 guardarHistorial(data);
 
-/* ENVÍO ONLINE / OFFLINE */
+/* =========================
+   ENVÍO ONLINE / OFFLINE
+========================= */
+
 if(navigator.onLine){
 
-  setTimeout(() => {
-    fetch(scriptURL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "text/plain;charset=utf-8"
-      },
-      body: JSON.stringify(data)
-    }).catch(err => console.log(err));
-  }, 300);
+  await fetch(scriptURL,{
+    method:"POST",
+    body: JSON.stringify(data)
+  });
 
 }else{
+
   guardarOffline(data);
-  alert("Sin conexión: guardado localmente");
+
+  alert("Sin conexión: guardado en el dispositivo");
+
 }
 
 alert("Encuesta procesada");
+
+/* LIMPIAR FORMULARIO */
+
 document.getElementById("formulario").reset();
 
 });
