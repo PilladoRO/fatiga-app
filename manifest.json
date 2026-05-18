@@ -1,11 +1,11 @@
 {
-  "name": "Encuesta Fatiga",
-  "short_name": "Fatiga",
-  "start_url": ".",
+  "name": "Encuesta Fatiga y Somnolencia - Jorge Alfaro B.",
+  "short_name": "Aplicación creada por Jorge Alfaro B.",
+  "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#003366",
-  "theme_color": "#003366",
-  "description": "Encuesta de fatiga para conductores",
+  "background_color": "#5DBB63",
+  "theme_color": "#5DBB63",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "icon.png",
