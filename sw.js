@@ -1,6 +1,7 @@
-self.addEventListener("install", e=>{
-  console.log("Service Worker instalado");
+self.addEventListener("install", (event) => {
+  self.skipWaiting();
 });
 
-self.addEventListener("fetch", e=>{
+self.addEventListener("fetch", () => {
+  // solo habilita cache básico
 });
