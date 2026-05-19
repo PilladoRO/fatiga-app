@@ -180,7 +180,12 @@ Encuesta de Fatiga y Somnolencia
 <div class="card">
 
 <label>Nombre del conductor</label>
-<input type="text" id="nombre" required>
+<input
+    type="text"
+    id="nombre"
+    required
+    placeholder="Ingrese nombre del conductor"
+>
 
 <br><br>
 
@@ -222,19 +227,19 @@ Encuesta de Fatiga y Somnolencia
 </div><br>
 
 <div>
-5. ¿Siente los hombros entumecidos ?<br>
+5. ¿Siente los hombros entumecidos?<br>
 <input type="radio" name="p5" value="Si" required> Sí
 <input type="radio" name="p5" value="No"> No
 </div><br>
 
 <div>
-6. ¿Le tiemblan los párpados ?<br>
+6. ¿Le tiemblan los párpados?<br>
 <input type="radio" name="p6" value="Si" required> Sí
 <input type="radio" name="p6" value="No"> No
 </div><br>
 
 <div>
-7. ¿ En las ultimas semanas ha tenido problemas personales que le dificulten su periodo de descanso?<br>
+7. ¿En las últimas semanas ha tenido problemas personales que le dificulten su periodo de descanso?<br>
 <input type="radio" name="p7" value="Si" required> Sí
 <input type="radio" name="p7" value="No"> No
 </div><br>
@@ -246,7 +251,7 @@ Encuesta de Fatiga y Somnolencia
 </div><br>
 
 <div>
-9. ¿Usted está tomando algún tipo de medicamento? <br>
+9. ¿Usted está tomando algún tipo de medicamento?<br>
 <input type="radio" name="p9" value="Si" required> Sí
 <input type="radio" name="p9" value="No"> No
 </div><br>
@@ -421,29 +426,66 @@ document.getElementById("formulario").addEventListener("submit", async (e)=>{
 
 e.preventDefault();
 
-let nombre = document.getElementById("nombre").value;
+/* =========================
+   VALIDAR NOMBRE Y FAENA
+========================= */
+
+let nombre = document.getElementById("nombre").value.trim();
 let faena = document.getElementById("faena").value;
 
-let count = 0;
+/* Validar nombre obligatorio */
+if(nombre === ""){
+  alert("Debe ingresar el nombre del conductor.");
+  document.getElementById("nombre").focus();
+  return;
+}
 
+/* Validar faena obligatoria */
+if(faena === ""){
+  alert("Debe seleccionar una faena.");
+  document.getElementById("faena").focus();
+  return;
+}
+
+/* =========================
+   VALIDAR RESPUESTAS
+========================= */
+
+let count = 0;
 let respuestas = {};
 
 for(let i=1;i<=10;i++){
 
-  let v = document.querySelector(`input[name=p${i}]:checked`).value;
+  let respuestaSeleccionada =
+    document.querySelector(`input[name=p${i}]:checked`);
+
+  if(!respuestaSeleccionada){
+    alert(`Debe responder la pregunta ${i}.`);
+    return;
+  }
+
+  let v = respuestaSeleccionada.value;
 
   respuestas["p"+i] = v;
 
-  if(v==="Si") count++;
+  if(v === "Si") count++;
 
 }
 
-let resultado = count>8 ? "APTO" : "NO APTO";
+/* =========================
+   RESULTADO
+========================= */
+
+let resultado = count > 8 ? "APTO" : "NO APTO";
 
 document.getElementById("resultado").innerHTML =
-resultado==="APTO"
+resultado === "APTO"
 ? `<span class="apto">APTO</span>`
 : `<span class="noapto">NO APTO</span>`;
+
+/* =========================
+   DATOS
+========================= */
 
 let data = {
 
@@ -457,7 +499,6 @@ let data = {
 };
 
 /* GUARDAR HISTORIAL */
-
 guardarHistorial(data);
 
 /* =========================
@@ -481,9 +522,13 @@ if(navigator.onLine){
 
 alert("Encuesta procesada");
 
-/* LIMPIAR FORMULARIO */
+/* =========================
+   LIMPIAR FORMULARIO
+========================= */
 
 document.getElementById("formulario").reset();
+document.getElementById("nombre").value = "";
+document.getElementById("faena").value = "";
 
 });
 
