@@ -43,7 +43,7 @@ body{
 }
 
 .splash-text{
-    font-size:22px;
+    font-size:18px;
     font-weight:bold;
     color:#444;
     text-align:center;
@@ -198,61 +198,61 @@ Encuesta de Fatiga y Somnolencia
 <div class="card">
 
 <div>
-1. ¿Durmió más de 5 horas?<br>
+1. ¿Siente la vista cansada o con ardor?<br>
 <input type="radio" name="p1" value="Si" required> Sí
 <input type="radio" name="p1" value="No"> No
 </div><br>
 
 <div>
-2. ¿Cuerpo adormecido?<br>
+2. En los últimos minutos ¿Ha bostezado frecuentemente?<br>
 <input type="radio" name="p2" value="Si" required> Sí
 <input type="radio" name="p2" value="No"> No
 </div><br>
 
 <div>
-3. ¿Bostezos frecuentes?<br>
+3. ¿Siente su cuerpo cansado?<br>
 <input type="radio" name="p3" value="Si" required> Sí
 <input type="radio" name="p3" value="No"> No
 </div><br>
 
 <div>
-4. ¿Dificultad concentración?<br>
+4. ¿Tiene dificultad para mantener la atención?<br>
 <input type="radio" name="p4" value="Si" required> Sí
 <input type="radio" name="p4" value="No"> No
 </div><br>
 
 <div>
-5. ¿Pesadez ojos?<br>
+5. ¿Siente los hombros entumecidos ?<br>
 <input type="radio" name="p5" value="Si" required> Sí
 <input type="radio" name="p5" value="No"> No
 </div><br>
 
 <div>
-6. ¿Menos sueño habitual?<br>
+6. ¿Le tiemblan los párpados ?<br>
 <input type="radio" name="p6" value="Si" required> Sí
 <input type="radio" name="p6" value="No"> No
 </div><br>
 
 <div>
-7. ¿Cansancio físico?<br>
+7. ¿ En las ultimas semanas ha tenido problemas personales que le dificulten su periodo de descanso?<br>
 <input type="radio" name="p7" value="Si" required> Sí
 <input type="radio" name="p7" value="No"> No
 </div><br>
 
 <div>
-8. ¿Sueño actual?<br>
+8. ¿Previo al turno usted durmió menos de 5 horas?<br>
 <input type="radio" name="p8" value="Si" required> Sí
 <input type="radio" name="p8" value="No"> No
 </div><br>
 
 <div>
-9. ¿Microsueños?<br>
+9. ¿Usted está tomando algún tipo de medicamento? <br>
 <input type="radio" name="p9" value="Si" required> Sí
 <input type="radio" name="p9" value="No"> No
 </div><br>
 
 <div>
-10. ¿Apto conducir?<br>
+10. ¿Usted ha realizado actividad física más de lo habitual previo a su turno de trabajo?<br>
 <input type="radio" name="p10" value="Si" required> Sí
 <input type="radio" name="p10" value="No"> No
 </div><br>
@@ -438,7 +438,7 @@ for(let i=1;i<=10;i++){
 
 }
 
-let resultado = count>=7 ? "APTO" : "NO APTO";
+let resultado = count>=8 ? "APTO" : "NO APTO";
 
 document.getElementById("resultado").innerHTML =
 resultado==="APTO"
